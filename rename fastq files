@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Associative array to map NWGC IDs to Inv Sample IDs
+declare -A id_mapping=(
+    ["1403554"]="SA_ku"
+    ["1403556"]="BCG_ku"
+    ["1403557"]="H37RV_ku"
+    ["1405463"]="HN878_rc"
+    ["1403558"]="T46_rc"
+    ["1403559"]="Erdman_rc"
+    ["1403561"]="H37Rv_rc"
+    ["1403562"]="Mav-smt_rc"
+    ["1403564"]="BCG-AJV_rc"
+    ["1403565"]="Mabs-A_rc"
+    ["1403566"]="Mabs-B_rc"
+    ["1403567"]="Mabs-C_rc"
+    ["1403569"]="Mabs-G_rc"
+    ["1403571"]="Mabs-J_rc"
+    ["1403572"]="Mchel-D"
+)
+
+# Loop through files
+for file in *.fastq.gz; do
+    # Extract NWGC ID from filename
+    nwgc_id="${file%%_*}"
+
+    # Check if NWGC ID exists in mapping
+    if [[ -n "${id_mapping[$nwgc_id]}" ]]; then
+        # Get corresponding Inv Sample ID
+        inv_sample_id="${id_mapping[$nwgc_id]}"
+
+        # Rename the file
+        new_filename="${inv_sample_id}_${file#*_}"
+        mv "$file" "$new_filename"
+    else
+        echo "No mapping found for NWGC ID $nwgc_id"
+    fi
+done

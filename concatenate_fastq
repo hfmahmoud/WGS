@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Loop through each _R1 sample
+for sample in *_L001_R1.fastq.gz; do
+    # Extract sample name
+    sample_name="${sample%_L001_R1.fastq.gz}"
+    
+    # Concatenate R1 for each sample
+    cat "${sample_name}"_L001_R1.fastq.gz "${sample_name}"_L002_R1.fastq.gz > "${sample_name}"_R1.fastq.gz
+done
+
+# Loop through each _R2 sample
+for sample in *_L001_R2.fastq.gz; do
+    # Extract sample name
+    sample_name="${sample%_L001_R2.fastq.gz}"
+    
+    # Concatenate R2 for each sample
+    cat "${sample_name}"_L001_R2.fastq.gz "${sample_name}"_L002_R2.fastq.gz > "${sample_name}"_R2.fastq.gz
+done
